@@ -335,6 +335,11 @@ public class ATMS extends javax.swing.JFrame {
 
         jReceipt.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jReceipt.setText("Receipt");
+        jReceipt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jReceiptActionPerformed(evt);
+            }
+        });
 
         jExit.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jExit.setText("Exit");
@@ -541,7 +546,8 @@ public class ATMS extends javax.swing.JFrame {
 private JFrame frame;
     private void jExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jExitActionPerformed
         frame = new JFrame("Exit");
-        if (JOptionPane.showConfirmDialog(frame, "Confirm if you want to exit", "Loan Management System",
+        if (JOptionPane.showConfirmDialog(frame, "Confirm if you want to exit", 
+                "Loan Management System",
             JOptionPane.YES_NO_OPTION)== JOptionPane.YES_NO_OPTION){
         System.exit(0);
         }
@@ -564,6 +570,15 @@ private JFrame frame;
         jExit.setEnabled(true);
         jReceipt.setEnabled(true);
     }//GEN-LAST:event_jButton19ActionPerformed
+
+    private void jReceiptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jReceiptActionPerformed
+        String annualInterestRate = String.format(jtxtEnter.getText());
+        String numberOfYears = String.format(jtxtnumberOfYaers.getText());
+        String loanAmount = String.format(jtxtEnteloanmount.getText());
+        String monthly = String.format(jlblmonthlyPayment.getText());
+        String annualtotalPayment = String.format(jlbltotalPayment.getText());
+        
+    }//GEN-LAST:event_jReceiptActionPerformed
 
     /**
      * @param args the command line arguments
