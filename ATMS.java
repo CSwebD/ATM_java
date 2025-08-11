@@ -31,10 +31,14 @@ public class ATMS extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextArea2 = new javax.swing.JTextArea();
         jPanel1 = new javax.swing.JPanel();
         jButton17 = new javax.swing.JButton();
         jButton18 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTextArea3 = new javax.swing.JTextArea();
         jPanel4 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -73,6 +77,10 @@ public class ATMS extends javax.swing.JFrame {
         jButton19 = new javax.swing.JButton();
         jButton20 = new javax.swing.JButton();
 
+        jTextArea2.setColumns(20);
+        jTextArea2.setRows(5);
+        jScrollPane2.setViewportView(jTextArea2);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowActivated(java.awt.event.WindowEvent evt) {
@@ -109,15 +117,27 @@ public class ATMS extends javax.swing.JFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
 
+        jTextArea3.setBackground(new java.awt.Color(204, 204, 204));
+        jTextArea3.setColumns(20);
+        jTextArea3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jTextArea3.setRows(5);
+        jScrollPane3.setViewportView(jTextArea3);
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
@@ -332,6 +352,11 @@ public class ATMS extends javax.swing.JFrame {
         jReset.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jReset.setText("Reset");
         jReset.setToolTipText("");
+        jReset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jResetActionPerformed(evt);
+            }
+        });
 
         jReceipt.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jReceipt.setText("Receipt");
@@ -541,7 +566,17 @@ public class ATMS extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton16ActionPerformed
 
     private void jLoanCalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jLoanCalActionPerformed
-        // TODO add your handling code here:
+        double annualInterestRate = Double.parseDouble(jtxtEnter.getText());
+        double monthlyInterestRate = annualInterestRate / 1200;
+        int numberOfYears = Integer.parseInt(jtxtnumberofyears.getText());
+        double loanAmount = Double,parseDouble(jtxtEnteloanamount.getText());
+        //...
+        double monthlyPayment = loanAmount * monthlyInterestRate/(1 - 1/Math.pow(1 + 
+               monthlyInterestRate, numberOfYaers * 12));
+        String imonthlyPayment;
+        imonthlyPayment = Double.toString(monthlyPayment);
+        imonthlyPayment = String.format("£%.2f", totalPayment);
+        jlbltotalPayment.setText(itotalPayment);
     }//GEN-LAST:event_jLoanCalActionPerformed
 private JFrame frame;
     private void jExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jExitActionPerformed
@@ -562,6 +597,10 @@ private JFrame frame;
         jReset.setEnabled(false);
         jExit.setEnabled(false);
         jReceipt.setEnabled(false);
+        
+        jtxtDisplay.append(
+            "Balance \n\t Loan " +
+            "\n\nWithdrawal   \n\t Deposite" );
     }//GEN-LAST:event_formWindowActivated
 
     private void jButton19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton19ActionPerformed
@@ -575,10 +614,43 @@ private JFrame frame;
         String annualInterestRate = String.format(jtxtEnter.getText());
         String numberOfYears = String.format(jtxtnumberOfYaers.getText());
         String loanAmount = String.format(jtxtEnteloanmount.getText());
+        
         String monthly = String.format(jlblmonthlyPayment.getText());
         String annualtotalPayment = String.format(jlbltotalPayment.getText());
+        //...
+        int refs= 1325 +(int) (Math.random()*4238);
+        //...
+        Calendar timer = Calendar.getInstance();
+        time.getTime();
+        SimpleDateFormat tTime = new SimpleDateFormat("HH:mm:ss");
+        tTime.format(timer.getTime());
+        SimpleDateFormat Tdate = new SimpleDateFormat("dd-MMM-yyyy");
+        Tdate.format(timer.getTime());
         
+        //...
+        jtxtReceipt.append("\tLoan management Systems\n" +
+                "Reference:\t\t\t" + refs +
+                "\n=======================================\t" +
+                "\nInterest rate:\t\t\t " + annualInterestRate +
+                "\nRepayment years:\t\t " + numberOfYears +
+                "\nAmount of Loan:\t\t\t " + "£" + loanAmount +
+                "\nMonthly payment:\t\t " + monthlyPayment +
+                "\nTotal payment:\t\t\t " + totalPayment +
+                
+                "n========================================\t" +
+                "nDate: " + Tdate.format(timer.getTime()) + 
+                "\t\tTime: " + tTime.format(timer.getTime()) +
+                "\n\n\t\tThank you\n ");
     }//GEN-LAST:event_jReceiptActionPerformed
+
+    private void jResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jResetActionPerformed
+        jtxtEnter.setText(null);
+        jtxtnumberofyears.setText(null);
+        jtxtEnteloanamount.setText(null);
+        jlblmonthlyPayment.setText(null);
+        jlbltotalPayment.setText(null);
+        jtxtReceipt.setText(null);
+    }//GEN-LAST:event_jResetActionPerformed
 
     /**
      * @param args the command line arguments
@@ -641,7 +713,11 @@ private JFrame frame;
     private javax.swing.JButton jReceipt;
     private javax.swing.JButton jReset;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextArea jTextArea2;
+    private javax.swing.JTextArea jTextArea3;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
