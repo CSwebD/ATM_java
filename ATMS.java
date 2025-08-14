@@ -64,8 +64,8 @@ public class ATMS extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        jtxtEnter = new javax.swing.JTextField();
+        jtxtnumberofyears = new javax.swing.JTextField();
         jTextField3 = new javax.swing.JTextField();
         jTextField4 = new javax.swing.JTextField();
         jTextField5 = new javax.swing.JTextField();
@@ -165,6 +165,7 @@ public class ATMS extends javax.swing.JFrame {
             }
         });
 
+        jButton4.setBackground(new java.awt.Color(255, 0, 0));
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ATM_Systems/cancel.png"))); // NOI18N
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -193,6 +194,7 @@ public class ATMS extends javax.swing.JFrame {
             }
         });
 
+        jbtnClear.setBackground(new java.awt.Color(255, 204, 51));
         jbtnClear.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ATM_Systems/clear.png"))); // NOI18N
         jbtnClear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -221,6 +223,7 @@ public class ATMS extends javax.swing.JFrame {
             }
         });
 
+        jbtnEnter.setBackground(new java.awt.Color(0, 153, 51));
         jbtnEnter.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ATM_Systems/enter.png"))); // NOI18N
         jbtnEnter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -351,9 +354,25 @@ public class ATMS extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel5.setText("Monthly payment");
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        jtxtEnter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                jtxtEnterActionPerformed(evt);
+            }
+        });
+        jtxtEnter.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtxtEnterKeyTyped(evt);
+            }
+        });
+
+        jtxtnumberofyears.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtxtnumberofyearsActionPerformed(evt);
+            }
+        });
+        jtxtnumberofyears.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtxtnumberofyearsKeyTyped(evt);
             }
         });
 
@@ -407,8 +426,8 @@ public class ATMS extends javax.swing.JFrame {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jTextField4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
                     .addComponent(jTextField3, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jtxtnumberofyears, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jtxtEnter, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jTextField5))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -431,11 +450,11 @@ public class ATMS extends javax.swing.JFrame {
                         .addGap(58, 58, 58)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jtxtEnter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jtxtnumberofyears, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
@@ -653,9 +672,9 @@ private JFrame frame;
         }
     }//GEN-LAST:event_jExitActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void jtxtEnterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtEnterActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_jtxtEnterActionPerformed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         jLoanCal.setEnabled(false);
@@ -736,6 +755,23 @@ private JFrame frame;
         jlblDisplay.setText(Enternumber);
     }//GEN-LAST:event_jbtn3ActionPerformed
 
+    private void jtxtEnterKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtEnterKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtxtEnterKeyTyped
+
+    private void jtxtnumberofyearsKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtxtnumberofyearsKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtxtnumberofyearsKeyTyped
+
+    private void jtxtnumberofyearsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtnumberofyearsActionPerformed
+        char iNumber = evt.getKeyChar();
+        if(!(Character.isDigit(iNumber))
+                ||(!Number == KeyEvent.VK_Back_Space)
+                ||(!Number == KeyEvent.VK_DELETE)){
+            evt.consue();
+        }
+    }//GEN-LAST:event_jtxtnumberofyearsActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -787,8 +823,6 @@ private JFrame frame;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
     private javax.swing.JTextArea jTextArea3;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
@@ -809,5 +843,7 @@ private JFrame frame;
     private javax.swing.JButton jbtnWithdraw;
     private javax.swing.JButton jbtnZero;
     private javax.swing.JLabel jlblDisplay;
+    private javax.swing.JTextField jtxtEnter;
+    private javax.swing.JTextField jtxtnumberofyears;
     // End of variables declaration//GEN-END:variables
 }
