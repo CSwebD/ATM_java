@@ -43,7 +43,7 @@ public class ATMS extends javax.swing.JFrame {
         jbtn1 = new javax.swing.JButton();
         jbtn2 = new javax.swing.JButton();
         jbtn3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        jbtnCancel = new javax.swing.JButton();
         jbtn4 = new javax.swing.JButton();
         jbtn5 = new javax.swing.JButton();
         jbtn6 = new javax.swing.JButton();
@@ -165,11 +165,11 @@ public class ATMS extends javax.swing.JFrame {
             }
         });
 
-        jButton4.setBackground(new java.awt.Color(255, 0, 0));
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ATM_Systems/cancel.png"))); // NOI18N
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        jbtnCancel.setBackground(new java.awt.Color(255, 0, 0));
+        jbtnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ATM_Systems/cancel.png"))); // NOI18N
+        jbtnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                jbtnCancelActionPerformed(evt);
             }
         });
 
@@ -270,7 +270,7 @@ public class ATMS extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jbtn3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jbtnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jbtn4, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -306,7 +306,7 @@ public class ATMS extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbtnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jbtn3, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jbtn2, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jbtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -572,9 +572,14 @@ public class ATMS extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+    private void jbtnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCancelActionPerformed
+        frame = new JFrame("Exit");
+        if (JOptionPane.showConfirmDialog(frame, "Confirm if you want to exit", 
+                "ATM System",
+            JOptionPane.YES_NO_OPTION)== JOptionPane.YES_NO_OPTION){
+        System.exit(0);
+        }
+    }//GEN-LAST:event_jbtnCancelActionPerformed
 
     private void jbtn4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtn4ActionPerformed
         String Enternumber = jlblDisplay.getText() + "4";
@@ -801,7 +806,6 @@ private JFrame frame;
     private javax.swing.JButton jButton14;
     private javax.swing.JButton jButton15;
     private javax.swing.JButton jButton16;
-    private javax.swing.JButton jButton4;
     private javax.swing.JButton jExit;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -836,6 +840,7 @@ private JFrame frame;
     private javax.swing.JButton jbtn8;
     private javax.swing.JButton jbtn9;
     private javax.swing.JButton jbtnBalance;
+    private javax.swing.JButton jbtnCancel;
     private javax.swing.JButton jbtnClear;
     private javax.swing.JButton jbtnDeposit;
     private javax.swing.JButton jbtnEnter;
