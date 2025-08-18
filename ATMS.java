@@ -627,6 +627,10 @@ public class ATMS extends javax.swing.JFrame {
         jbtnLoan.setEnabled(true);
         jbtnWithdraw.setEnabled(true);
         jbtnDeposit.setEnabled(true);
+        jlblBalance.setVisible(true);
+        jlblLoan.setVisible(true);
+        jlblWithdraw.setVisible(true);
+        jlblDeposit.setVisible(true);
         }
         else
         {
