@@ -4,7 +4,7 @@ A comprehensive Java Swing-based ATM (Automated Teller Machine) simulation that 
 
 ## Application Interface
 
-![ATM Management System Interface](picture.png)
+![ATM Management System Interface](image.png)
 
 *The main interface showing the PIN entry screen, numeric keypad, and loan calculation panel*
 
