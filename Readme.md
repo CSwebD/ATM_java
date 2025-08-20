@@ -23,7 +23,7 @@ A comprehensive Java Swing-based ATM (Automated Teller Machine) simulation that 
 
 ### 📊 Loan Management
 - **Loan Calculator**: Calculate monthly and total payments
-- **Interest Rate Support**: Handles various interest rates including 0% loans
+- **Automatic Interest Rates**: (£100k+) → 6%, (£20k-£99k) → 5.5%, (under £20k) → 5%
 - **Input Validation**: Ensures all loan parameters are valid
 - **Receipt Generation**: Detailed loan calculation receipts with timestamps
 
@@ -47,19 +47,6 @@ A comprehensive Java Swing-based ATM (Automated Teller Machine) simulation that 
 - **Memory**: Minimum 256 MB RAM
 - **Operating System**: Windows, macOS, or Linux
 
-## Installation & Setup
-
-1. **Clone or Download** the project files
-2. **Ensure Java is installed** on your system
-3. **Compile the application**:
-   ```bash
-   javac -cp . ATM_Systems/ATMS.java
-   ```
-4. **Run the application**:
-   ```bash
-   java ATM_Systems.ATMS
-   ```
-
 ## Usage Guide
 
 ### Initial Setup
@@ -81,7 +68,6 @@ A comprehensive Java Swing-based ATM (Automated Teller Machine) simulation that 
 ### Loan Calculations
 1. **Click "Loan"** to enter loan mode
 2. **Fill in the required fields**:
-   - Interest rate (annual percentage)
    - Number of years
    - Loan amount
 3. **Click "Calculate Loan"** to compute payments
