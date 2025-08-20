@@ -1,5 +1,5 @@
 /*
- * Improved ATM System with bug fixes and enhancements
+ * Improved ATM System with automatic interest rates and reordered loan fields
  */
 package ATM_Systems;
 
@@ -17,6 +17,8 @@ public class ATMS extends javax.swing.JFrame {
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(ATMS.class.getName());
     private JFrame frame;
     private double currentBalance = 1000.0; // Initial balance
+    private int pinAttempts = 0; // Track PIN attempts
+    private static final int MAX_PIN_ATTEMPTS = 3;
 
     /**
      * Creates new form ATMS
@@ -41,6 +43,7 @@ public class ATMS extends javax.swing.JFrame {
         jbtnWithdraw = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jlblDisplay = new javax.swing.JLabel();
+        jlblPinStatus = new javax.swing.JLabel(); // Status label below PIN display
         jlblBalance = new javax.swing.JLabel();
         jlblLoan = new javax.swing.JLabel();
         jlblWithdraw = new javax.swing.JLabel();
@@ -70,9 +73,9 @@ public class ATMS extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jtxtEnter = new javax.swing.JTextField();
         jtxtnumberofyears = new javax.swing.JTextField();
         jtxtEnteloanamount = new javax.swing.JTextField();
+        jtxtInterestRate = new javax.swing.JTextField(); // Changed from jtxtEnter
         jlblmonthlyPayment = new javax.swing.JTextField();
         jlbltotalPayment = new javax.swing.JTextField();
         jLoanCal = new javax.swing.JButton();
@@ -139,6 +142,10 @@ public class ATMS extends javax.swing.JFrame {
         jlblDisplay.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jlblDisplay.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
+        jlblPinStatus.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jlblPinStatus.setFont(new java.awt.Font("Segoe UI", 1, 18));
+        jlblPinStatus.setText("Enter PIN");
+
         jlblBalance.setText("Balance");
         jlblLoan.setText("Loan");
         jlblWithdraw.setText("Withdraw");
@@ -163,6 +170,8 @@ public class ATMS extends javax.swing.JFrame {
                                                         javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                 .addComponent(jlblLoan))
                                         .addComponent(jlblDisplay, javax.swing.GroupLayout.PREFERRED_SIZE, 162,
+                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jlblPinStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 162,
                                                 javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
         jPanel2Layout.setVerticalGroup(
@@ -175,8 +184,10 @@ public class ATMS extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jlblDisplay, javax.swing.GroupLayout.PREFERRED_SIZE, 28,
                                         javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED,
-                                        javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jlblPinStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 20,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(jlblWithdraw)
                                         .addComponent(jlblDeposit))
@@ -418,8 +429,9 @@ public class ATMS extends javax.swing.JFrame {
 
         jPanel5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
 
+        // Reordered labels to match the new layout
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel1.setText("Interest rate");
+        jLabel1.setText("Number of years");
 
         jtxtReceipt.setColumns(20);
         jtxtReceipt.setLineWrap(true);
@@ -429,34 +441,38 @@ public class ATMS extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jtxtReceipt);
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel2.setText("Number of years");
+        jLabel2.setText("Amount of loan");
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel3.setText("Amount of loan");
+        jLabel3.setText("Interest rate");
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel4.setText("Total payment");
+        jLabel4.setText("Monthly payment");
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel5.setText("Monthly payment");
+        jLabel5.setText("Total payment");
 
-        jtxtEnter.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                jtxtEnterKeyTyped(evt);
-            }
-        });
-
+        // Input validation for years (integers only)
         jtxtnumberofyears.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jtxtnumberofyearsKeyTyped(evt);
             }
         });
 
+        // Input validation and automatic interest rate calculation
         jtxtEnteloanamount.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jtxtEnteloanamountKeyTyped(evt);
             }
+
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                updateInterestRate();
+            }
         });
+
+        // Interest rate field is read-only (automatically calculated)
+        jtxtInterestRate.setEditable(false);
+        jtxtInterestRate.setBackground(new java.awt.Color(240, 240, 240));
 
         jlblmonthlyPayment.setEditable(false);
         jlbltotalPayment.setEditable(false);
@@ -503,26 +519,26 @@ public class ATMS extends javax.swing.JFrame {
                                         .createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                         .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING,
                                                 javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
-                                        .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING,
-                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING,
+                                        .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING,
                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
                                                 javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING,
                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
                                                 javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                        .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING,
+                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE,
                                                 javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel5Layout
                                         .createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                         .addComponent(jlbltotalPayment, javax.swing.GroupLayout.Alignment.LEADING,
                                                 javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+                                        .addComponent(jlblmonthlyPayment, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jtxtInterestRate, javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jtxtEnteloanamount, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jtxtnumberofyears, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jtxtEnter, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jlblmonthlyPayment))
+                                        .addComponent(jtxtnumberofyears, javax.swing.GroupLayout.Alignment.LEADING))
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addGroup(jPanel5Layout.createSequentialGroup()
@@ -549,13 +565,6 @@ public class ATMS extends javax.swing.JFrame {
                                                 .addGroup(jPanel5Layout
                                                         .createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                                         .addComponent(jLabel1)
-                                                        .addComponent(jtxtEnter, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                                javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addGap(18, 18, 18)
-                                                .addGroup(jPanel5Layout
-                                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                        .addComponent(jLabel2)
                                                         .addComponent(jtxtnumberofyears,
                                                                 javax.swing.GroupLayout.PREFERRED_SIZE,
                                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
@@ -563,7 +572,7 @@ public class ATMS extends javax.swing.JFrame {
                                                 .addGap(18, 18, 18)
                                                 .addGroup(jPanel5Layout
                                                         .createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                        .addComponent(jLabel3)
+                                                        .addComponent(jLabel2)
                                                         .addComponent(jtxtEnteloanamount,
                                                                 javax.swing.GroupLayout.PREFERRED_SIZE,
                                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
@@ -571,8 +580,8 @@ public class ATMS extends javax.swing.JFrame {
                                                 .addGap(18, 18, 18)
                                                 .addGroup(jPanel5Layout
                                                         .createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                        .addComponent(jLabel5)
-                                                        .addComponent(jlblmonthlyPayment,
+                                                        .addComponent(jLabel3)
+                                                        .addComponent(jtxtInterestRate,
                                                                 javax.swing.GroupLayout.PREFERRED_SIZE,
                                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
                                                                 javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -580,6 +589,14 @@ public class ATMS extends javax.swing.JFrame {
                                                 .addGroup(jPanel5Layout
                                                         .createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                                         .addComponent(jLabel4)
+                                                        .addComponent(jlblmonthlyPayment,
+                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGap(18, 18, 18)
+                                                .addGroup(jPanel5Layout
+                                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                        .addComponent(jLabel5)
                                                         .addComponent(jlbltotalPayment,
                                                                 javax.swing.GroupLayout.PREFERRED_SIZE,
                                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
@@ -692,6 +709,33 @@ public class ATMS extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>
 
+    // Method to automatically calculate and set interest rate based on loan amount
+    private void updateInterestRate() {
+        try {
+            if (!jtxtEnteloanamount.getText().trim().isEmpty()) {
+                double loanAmount = Double.parseDouble(jtxtEnteloanamount.getText());
+                double interestRate;
+
+                // Set interest rate based on loan amount
+                if (loanAmount >= 100000) { // 100k to 1M+
+                    interestRate = 6.0;
+                } else if (loanAmount >= 20000) { // 20k to 99,999
+                    interestRate = 5.5;
+                } else if (loanAmount >= 1) { // 1 to 19,999
+                    interestRate = 5.0;
+                } else {
+                    interestRate = 0.0; // Invalid amount
+                }
+
+                jtxtInterestRate.setText(String.format("%.1f%%", interestRate));
+            } else {
+                jtxtInterestRate.setText("");
+            }
+        } catch (NumberFormatException e) {
+            jtxtInterestRate.setText("");
+        }
+    }
+
     // Event handlers for number buttons
     private void jbtn1ActionPerformed(java.awt.event.ActionEvent evt) {
         String enterNumber = jlblDisplay.getText() + "1";
@@ -755,31 +799,81 @@ public class ATMS extends javax.swing.JFrame {
         jlblDisplay.setText(enterNumber);
     }
 
-    // PIN verification and system access
+    // PIN verification and system access with 3 attempts limit
     private void jbtnEnterActionPerformed(java.awt.event.ActionEvent evt) {
         try {
             if (jlblDisplay.getText().isEmpty()) {
-                jlblDisplay.setText("Enter PIN");
+                jlblPinStatus.setText("Enter PIN");
                 return;
             }
 
             int pin = Integer.parseInt(jlblDisplay.getText());
             if (pin == 1234) {
+                // Correct PIN
                 jbtnBalance.setEnabled(true);
                 jbtnLoan.setEnabled(true);
                 jbtnWithdraw.setEnabled(true);
                 jbtnDeposit.setEnabled(true);
-                jlblBalance.setVisible(true);
-                jlblLoan.setVisible(true);
-                jlblWithdraw.setVisible(true);
-                jlblDeposit.setVisible(true);
-                jlblDisplay.setText("Access Granted");
+                jlblDisplay.setText("");
+                jlblPinStatus.setText("Access Granted");
+                jlblPinStatus.setForeground(new java.awt.Color(0, 153, 0)); // Green color
+                pinAttempts = 0; // Reset attempts on successful login
             } else {
-                jlblDisplay.setText("Invalid PIN");
+                // Incorrect PIN
+                pinAttempts++;
+                if (pinAttempts >= MAX_PIN_ATTEMPTS) {
+                    jlblPinStatus.setText("Card Blocked - Too Many Attempts");
+                    jlblPinStatus.setForeground(new java.awt.Color(255, 0, 0)); // Red color
+                    jlblDisplay.setText("BLOCKED");
+
+                    // Disable all number buttons and enter button
+                    disableAllButtons();
+
+                    JOptionPane.showMessageDialog(this,
+                            "Your card has been blocked due to too many incorrect PIN attempts.\nPlease contact your bank.",
+                            "Card Blocked", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    int remainingAttempts = MAX_PIN_ATTEMPTS - pinAttempts;
+                    jlblPinStatus.setText("Invalid PIN - " + remainingAttempts + " attempts left");
+                    jlblPinStatus.setForeground(new java.awt.Color(255, 0, 0)); // Red color
+                    jlblDisplay.setText("");
+                }
             }
         } catch (NumberFormatException e) {
-            jlblDisplay.setText("Invalid Input");
+            pinAttempts++;
+            if (pinAttempts >= MAX_PIN_ATTEMPTS) {
+                jlblPinStatus.setText("Card Blocked - Too Many Attempts");
+                jlblPinStatus.setForeground(new java.awt.Color(255, 0, 0));
+                jlblDisplay.setText("BLOCKED");
+                disableAllButtons();
+                JOptionPane.showMessageDialog(this,
+                        "Your card has been blocked due to too many incorrect PIN attempts.\nPlease contact your bank.",
+                        "Card Blocked", JOptionPane.ERROR_MESSAGE);
+            } else {
+                int remainingAttempts = MAX_PIN_ATTEMPTS - pinAttempts;
+                jlblPinStatus.setText("Invalid Input - " + remainingAttempts + " attempts left");
+                jlblPinStatus.setForeground(new java.awt.Color(255, 0, 0));
+                jlblDisplay.setText("");
+            }
         }
+    }
+
+    // Helper method to disable all buttons when card is blocked
+    private void disableAllButtons() {
+        jbtn1.setEnabled(false);
+        jbtn2.setEnabled(false);
+        jbtn3.setEnabled(false);
+        jbtn4.setEnabled(false);
+        jbtn5.setEnabled(false);
+        jbtn6.setEnabled(false);
+        jbtn7.setEnabled(false);
+        jbtn8.setEnabled(false);
+        jbtn9.setEnabled(false);
+        jbtnZero.setEnabled(false);
+        jButton14.setEnabled(false);
+        jButton15.setEnabled(false);
+        jbtnEnter.setEnabled(false);
+        jbtnClear.setEnabled(false);
     }
 
     // Clear display and reset system
@@ -852,22 +946,29 @@ public class ATMS extends javax.swing.JFrame {
     private void jLoanCalActionPerformed(java.awt.event.ActionEvent evt) {
         try {
             // Input validation
-            if (jtxtEnter.getText().trim().isEmpty() ||
-                    jtxtnumberofyears.getText().trim().isEmpty() ||
+            if (jtxtnumberofyears.getText().trim().isEmpty() ||
                     jtxtEnteloanamount.getText().trim().isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please fill in all fields!");
+                JOptionPane.showMessageDialog(this, "Please fill in Number of Years and Loan Amount!");
                 return;
             }
 
-            double annualInterestRate = Double.parseDouble(jtxtEnter.getText());
             int numberOfYears = Integer.parseInt(jtxtnumberofyears.getText());
             double loanAmount = Double.parseDouble(jtxtEnteloanamount.getText());
 
             // Validation checks
-            if (annualInterestRate < 0 || numberOfYears <= 0 || loanAmount <= 0) {
+            if (numberOfYears <= 0 || loanAmount <= 0) {
                 JOptionPane.showMessageDialog(this, "Please enter valid positive values!");
                 return;
             }
+
+            // Get interest rate (automatically calculated)
+            double annualInterestRate;
+            String interestRateText = jtxtInterestRate.getText().replace("%", "");
+            if (interestRateText.isEmpty()) {
+                updateInterestRate(); // Update if not already done
+                interestRateText = jtxtInterestRate.getText().replace("%", "");
+            }
+            annualInterestRate = Double.parseDouble(interestRateText);
 
             double monthlyInterestRate = annualInterestRate / 1200; // Convert to monthly decimal
             int totalMonths = numberOfYears * 12;
@@ -902,9 +1003,9 @@ public class ATMS extends javax.swing.JFrame {
                 return;
             }
 
-            String annualInterestRate = jtxtEnter.getText();
             String numberOfYears = jtxtnumberofyears.getText();
             String loanAmount = jtxtEnteloanamount.getText();
+            String annualInterestRate = jtxtInterestRate.getText();
             String monthlyPayment = jlblmonthlyPayment.getText();
             String totalPayment = jlbltotalPayment.getText();
 
@@ -921,9 +1022,9 @@ public class ATMS extends javax.swing.JFrame {
             jtxtReceipt.append("\t\tLoan Management System\n");
             jtxtReceipt.append("Reference:\t\t\t" + refs + "\n");
             jtxtReceipt.append("=======================================\n");
-            jtxtReceipt.append("Interest rate:\t\t\t" + annualInterestRate + "%\n");
             jtxtReceipt.append("Repayment years:\t\t" + numberOfYears + "\n");
             jtxtReceipt.append("Amount of Loan:\t\t\t£" + loanAmount + "\n");
+            jtxtReceipt.append("Interest rate:\t\t\t" + annualInterestRate + "\n");
             jtxtReceipt.append("Monthly payment:\t\t" + monthlyPayment + "\n");
             jtxtReceipt.append("Total payment:\t\t\t" + totalPayment + "\n");
             jtxtReceipt.append("=======================================\n");
@@ -937,9 +1038,9 @@ public class ATMS extends javax.swing.JFrame {
     }
 
     private void jResetActionPerformed(java.awt.event.ActionEvent evt) {
-        jtxtEnter.setText("");
         jtxtnumberofyears.setText("");
         jtxtEnteloanamount.setText("");
+        jtxtInterestRate.setText("");
         jlblmonthlyPayment.setText("");
         jlbltotalPayment.setText("");
         jtxtReceipt.setText("");
@@ -963,14 +1064,6 @@ public class ATMS extends javax.swing.JFrame {
     }
 
     // Input validation for numeric fields
-    private void jtxtEnterKeyTyped(java.awt.event.KeyEvent evt) {
-        char character = evt.getKeyChar();
-        if (!(Character.isDigit(character) || character == '.' ||
-                character == KeyEvent.VK_BACK_SPACE || character == KeyEvent.VK_DELETE)) {
-            evt.consume();
-        }
-    }
-
     private void jtxtnumberofyearsKeyTyped(java.awt.event.KeyEvent evt) {
         char character = evt.getKeyChar();
         if (!(Character.isDigit(character) ||
@@ -1005,7 +1098,10 @@ public class ATMS extends javax.swing.JFrame {
         jlblWithdraw.setVisible(false);
         jlblDeposit.setVisible(false);
 
-        jlblDisplay.setText("Enter PIN");
+        jlblDisplay.setText("");
+        jlblPinStatus.setText("Enter PIN");
+        jlblPinStatus.setForeground(new java.awt.Color(0, 0, 0)); // Black color initially
+        pinAttempts = 0; // Reset attempts when window activates
     }
 
     /**
@@ -1071,11 +1167,12 @@ public class ATMS extends javax.swing.JFrame {
     private javax.swing.JButton jbtnWithdraw;
     private javax.swing.JButton jbtnZero;
     private javax.swing.JLabel jlblDisplay;
+    private javax.swing.JLabel jlblPinStatus;
     private javax.swing.JLabel jlblBalance;
     private javax.swing.JLabel jlblLoan;
     private javax.swing.JLabel jlblWithdraw;
     private javax.swing.JLabel jlblDeposit;
-    private javax.swing.JTextField jtxtEnter;
     private javax.swing.JTextField jtxtnumberofyears;
+    private javax.swing.JTextField jtxtInterestRate;
     // End of variables declaration
 }
